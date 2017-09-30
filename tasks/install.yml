@@ -24,8 +24,7 @@
 - name: "Terragrunt | Unarchive Terragrunt"
   get_url:
     url: '{{ terragrunt_repo_url }}'
-    dest: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}'
-    creates: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}/terragrunt'
+    dest: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}/terragrunt'
     mode: 0555
   when: terragrunt_install_path_st.stat.exists and terragrunt_install_path_st.stat.isdir
   register: terragrunt_unarchive
