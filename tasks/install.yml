@@ -22,9 +22,8 @@
     - terragrunt
 
 - name: "Terragrunt | Unarchive Terragrunt"
-  unarchive:
-    remote_src: true
-    src: '{{ terragrunt_repo_url }}'
+  get_url:
+    url: '{{ terragrunt_repo_url }}'
     dest: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}'
     creates: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}/terragrunt'
     mode: 0555
