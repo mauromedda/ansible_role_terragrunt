@@ -1,0 +1,60 @@
+---
+# tasks file for ansible_role_terragrunt
+
+- name: "Terragrunt | Create a version specific directory"
+  file:
+    path: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}'
+    state: directory
+    mode: 0755
+  tags:
+    - install
+    - create_dir
+    - terragrunt
+
+- name: "Terragrunt | Check if terragrunt_install_path exists"
+  stat:
+    path: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}'
+  check_mode: false
+  register: terragrunt_install_path_st
+  tags:
+    - install
+    - create_dir
+    - terragrunt
+
+- name: "Terragrunt | Unarchive Terragrunt"
+  unarchive:
+    remote_src: true
+    src: '{{ terragrunt_repo_url }}'
+    dest: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}'
+    creates: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}/terragrunt'
+    mode: 0555
+  when: terragrunt_install_path_st.stat.exists and terragrunt_install_path_st.stat.isdir
+  register: terragrunt_unarchive
+  tags:
+    - install
+    - download
+    - unarchive
+    - terragrunt
+
+- name: "Terragrunt | Link the current terragrunt version"
+  file:
+    src: '{{ terragrunt_base_install_dir }}/{{ terragrunt_version }}/terragrunt'
+    dest: '{{ terragrunt_bin }}'
+    state: link
+  when: terragrunt_unarchive.changed == True
+  register: inst_current_version
+  tags:
+    - install
+    - link
+    - skip_ansible_lint
+    - terragrunt
+
+- name: "Terragrunt | Clean-up installation files"
+  file:
+    path: '{{ terragrunt_dist_file }}'
+    state: absent
+  when: terragrunt_cleanup
+  tags:
+    - install
+    - cleanup
+    - terragrunt

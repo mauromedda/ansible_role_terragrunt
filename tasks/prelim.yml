@@ -1,0 +1,26 @@
+---
+# tasks file for ansible_role_terragrunt
+
+- name: "PRELIM | Check the current terragrunt version"
+  stat:
+    path: '/opt/hashicorp/terragrunt/{{ terragrunt_version }}'
+  register: terragrunt_current
+  changed_when: false
+  check_mode: no
+  tags:
+    - install
+    - purge_old
+    - cleanup
+    - terragrunt
+
+- name: "PRELIM | Get current version symlink"
+  stat:
+    path: '/usr/bin/terragrunt'
+  register: current_version
+  changed_when: false
+  check_mode: no
+  tags:
+    - install
+    - purge_old
+    - cleanup
+    - terragrunt

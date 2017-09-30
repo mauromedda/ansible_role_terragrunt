@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Mauro Medda
+  description: An Ansible role for installing Terragrunt
+
+  license: BSD
+
+  min_ansible_version: 2.2
+
+  platforms:
+  - name: EL
+    versions:
+    - 7
+
+  galaxy_tags: [ "RedHat", "CentOS", "terragrunt", "terraform" ]
+
+dependencies:
+  - mauromedda.ansible_role_unzip
+  - mauromedda.ansible_role_terraform

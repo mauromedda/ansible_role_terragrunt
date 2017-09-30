@@ -1,0 +1,24 @@
+# terragrunt plays to purge old version
+
+- name: Terragrunt | Get old installation
+  shell: ls -1 "{{ terragrunt_base_install_dir }}/"
+  register: old_contents
+  changed_when: false
+  tags:
+    - install
+    - purge_old
+    - skip_ansible_lint
+
+- name: Terragrunt | Delete old installation
+  file:
+     dest: "{{ terragrunt_base_install_dir }}/{{ item }}"
+     state: absent
+  with_items: "{{ old_contents.stdout_lines }}"
+  when:
+     - item not in ( inst_current_version.src | default(current_version.stat.lnk_source) )
+     - item not in ( inst_current_version.dest | default(current_version.stat.path) )
+     - terragrunt_purge_old == true
+     - old_contents.stdout_lines
+  tags:
+    - install
+    - purge_old
