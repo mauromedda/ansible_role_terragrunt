@@ -4,6 +4,6 @@
   connection: local
 
   roles:
-    - { role: mauromedda.ansible_role_unzip }
+    - { role: mauromedda.ansible_role_tar }
     - { role: mauromedda.ansible_role_terraform }
     - { role: role_under_test }

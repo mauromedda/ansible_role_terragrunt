@@ -1,2 +1,3 @@
+- src: mauromedda.ansible_role_tar
 - src: mauromedda.ansible_role_unzip
 - src: mauromedda.ansible_role_terraform
